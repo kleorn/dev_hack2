@@ -156,6 +156,7 @@ class API{
     }
 
     public static function updateUser(){
+	    //поскольку не указано обратное, считаем, что любой авторизованный пользователь может выполнить update
         $requestBody = file_get_contents('php://input');
         $requestArr=json_decode($requestBody,true);
         $requestHeaders=getallheaders();

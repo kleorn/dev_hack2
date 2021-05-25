@@ -1,0 +1,139 @@
+{
+	"info": {
+		"_postman_id": "1960b77c-d6f3-4301-bef5-973d2bde7b6b",
+		"name": "dev_hack",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "register",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"White_Tomato\", \"login\":\"123456\", \"password\":\"123456\", \"language\":\"ru-RU\"} "
+				},
+				"url": {
+					"raw": "{{host}}/register.php?XDEBUG_SESSION_START=PHPSTORM",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"register.php"
+					],
+					"query": [
+						{
+							"key": "XDEBUG_SESSION_START",
+							"value": "PHPSTORM"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "auth",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"AuthToken=pm.response.headers.get('AuthToken');\r",
+							"pm.environment.set(\"AuthToken\",AuthToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"login\": \"123456\", \"password\": \"123456\", \"language\": \"eu-US\"}"
+				},
+				"url": {
+					"raw": "{{host}}/auth.php?XDEBUG_SESSION_START=PHPSTORM",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"auth.php"
+					],
+					"query": [
+						{
+							"key": "XDEBUG_SESSION_START",
+							"value": "PHPSTORM"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "AuthToken",
+						"value": "{{AuthToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"id\": 24, \"name\": \"Петька Петров Петькович\", \"language\": \"ru-RU\"}"
+				},
+				"url": {
+					"raw": "{{host}}/update.php?XDEBUG_SESSION_START=PHPSTORM",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"update.php"
+					],
+					"query": [
+						{
+							"key": "XDEBUG_SESSION_START",
+							"value": "PHPSTORM"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

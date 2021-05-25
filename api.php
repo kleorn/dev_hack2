@@ -5,6 +5,14 @@ class API{
 	static $lang="en";
 	static $pdo;
 	static $errorBase=Array(
+        "noAuthToken"=>Array(
+            "ru"=>"Отсутствует токен авторизации в хедере AuthToken.",
+            "en"=>"No authorization token in AuthToken header."
+        ),
+        "wrongAuthToken"=>Array(
+            "ru"=>"Неправильный токен авторизации.",
+            "en"=>"Wrong authorization token."
+        ),
 	    "noName"=>Array(
 	        "ru"=>"Отсутствует имя пользователя.",
             "en"=>"No user name."
@@ -173,7 +181,7 @@ class API{
             $requestArr["language"]="eu-US"; //английский язык по умолчанию, не выдаем ошибку
         }
         if (!isset($requestHeaders["AuthToken"])) {
-            API::addError("authError");
+            API::addError("noAuthToken");
         }
 
         //если есть ошибки - отправляем и выходим
@@ -183,7 +191,7 @@ class API{
         }
 
         API::connectDB();
-        $query="SELECT user_id FROM tokens WHERE user_id=\"".$requestArr["id"]."\" AND token=\"".$requestHeaders["AuthToken"]."\"";
+        $query="SELECT user_id FROM tokens WHERE token=\"".$requestHeaders["AuthToken"]."\"";
         $pdoStatement=API::$pdo->query($query);
         if ($pdoStatement==false){
             self::addError("sqlError");
@@ -194,10 +202,11 @@ class API{
 
         if (!isset($result["user_id"])){
             header(" ",true,403);
-            self::addError("authError");
+            self::addError("wrongAuthToken");
             self::sendResponse();
             die();
         }
+        $currentUserId=$result["user_id"];
 
         $query="UPDATE users SET name=\"".$requestArr["name"]."\", language=\"".$requestArr["language"]."\" WHERE id=\"".$requestArr["id"]."\"";
         $modifiedStringsCount=API::$pdo->exec($query);

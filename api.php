@@ -219,7 +219,7 @@ class API{
 
 
     static function sendResponse(){
-        $response_json=json_encode(API::$response);
+        $response_json=json_encode(API::$response,JSON_UNESCAPED_UNICODE);//ненавижу unicode escape
         echo $response_json;
     }
     static function connectDB(){
